@@ -13,6 +13,6 @@ class BUTTON_CONTROLLER:
       self.buttons.append(Button(pin, leds, index, self.function_state, keys[index]))
 
   # checks all of the buttons in the array to see which have been pressed
-  def check(self):
+  def checkIfPressed(self):
     for button in self.buttons:
       button.update()

@@ -8,7 +8,7 @@ buttons = BUTTON_CONTROLLER(config.button_pins, leds, config.keys)
 try:
   while True:
     leds.shineOn()
-    buttons.check()
+    buttons.checkIfPressed()
 
 except KeyboardInterrupt:
   leds.cleanup()
