@@ -16,7 +16,7 @@ class LED_CONTROLLER:
     self.__clickIncriment = 0.001
     self.__breathIncriment = 0.003
     self.__breathBrightness = 10
-    self._selectMode = {
+    self.__ledMode = {
       0: self.__variableBrightness,
       1: self.__onPressMode,
       2: self.__breath,
@@ -34,7 +34,7 @@ class LED_CONTROLLER:
     self.mode = mode
 
   def shineOn(self):
-    self._selectMode[self.mode]()
+    self.__ledMode[self.mode]()
 
   def cleanup(self):
     for led in self.LEDS:

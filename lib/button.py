@@ -20,31 +20,39 @@ class Button:
     self.__function_state = __function_state
 
   def __press(self, state):
+    # limit key spam
     now = millis();
     if now - self.lastPressed < self.debounceTime:
-      return; 
+      return
     self.lastPressed = now
+
+    # only run is state has changed
     if state == self.__pressed:
       return
-    self.__pressed = state;
+    self.__pressed = state
+    self.LEDS.keyPressed = state
+
     # light up the button pressed when in onPress mode
     if state and self.LEDS.mode == 1:
       try:
         self.LEDS.brightnesses[self.index] = 0
       except IndexError:
         pass
-    # encoder button does not have LED tied to it toggles led mode 
+
+    # check for led to determine if button or encoder was pressed
     try:  
       self.LEDS.LEDS[self.index] ## checking if there is a led tied to the button index (ie. is it the encoder button)
-      self.LEDS.keyPressed = state
+      # set led mode to index of key pressed if encoder is depressed
       if self.__function_state[0]:
         self.LEDS.mode = self.index
         return
+
       ## actual key press command here
       keyboard.press(Key[self.key]) if state else keyboard.release(Key[self.key])
       # print("Button: ", self.pin, ", LED: ", self.LEDS.LEDS[self.index], ", Key: " + self.key + ", Pressed") if state else print("Button: ", self.pin, ", LED: ", self.LEDS.LEDS[self.index], ", Key: " + self.key +  ", Released")
       # print('')
       ##
+    # encoder was pressed
     except IndexError:
       self.__function_state[0] = state
       return
