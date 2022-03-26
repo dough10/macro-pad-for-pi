@@ -3,19 +3,27 @@ import RPi.GPIO as GPIO
 GPIO.setmode(GPIO.BCM)
 
 class LED_CONTROLLER:
+  LEDS = []
+  keyPressed = False
+  __mode = 0
+  __brightness = 0
+  __brightnesses = []
+  __currentLED = 1
+  __changeBy = -1
+  __krIncriment = 0.05
+  __krBrightness = 10 - __krIncriment
+  __clickIncriment = 0.001
+  __breathIncriment = 0.003
+  __breathBrightness = 10
+  
   def __init__(self, pins):
-    self.LEDS = []
-    self.brightnesses = []
-    self.mode = 3
-    self.keyPressed = False
-    self.brightness = 0
-    self.__currentLED = 1
-    self.__krIncriment = 0.05
-    self.__krBrightness = 10 - self.__krIncriment
-    self.__changeBy = -1
-    self.__clickIncriment = 0.001
-    self.__breathIncriment = 0.003
-    self.__breathBrightness = 10
+    for pin in pins:
+      GPIO.setup(pin, GPIO.OUT)
+      pwm = GPIO.PWM(pin, 500) 
+      pwm.start(100)
+      self.LEDS.append(pwm)
+      self.__brightnesses.append(100)
+
     self.__ledMode = {
       0: self.__variableBrightness,
       1: self.__onPressMode,
@@ -23,32 +31,48 @@ class LED_CONTROLLER:
       3: self.__KnightRider,
       4: self.__off
     }
-    for pin in pins:
-      GPIO.setup(pin, GPIO.OUT)
-      pwm = GPIO.PWM(pin, 500) 
-      pwm.start(100)
-      self.LEDS.append(pwm)
-      self.brightnesses.append(100)
 
+  # sets LED mode
   def setMode(self, mode):
-    self.mode = mode
+    self.__mode = mode
 
+  # gets current LED mode
+  def getMode(self):
+    return self.__mode
+
+  # method for turning a LED on when a button is pressed
+  def setOneLedBrightness(self, index, brightnessVal):
+    self.__brightnesses[index] = brightnessVal
+
+  # method for settingled brightness for variable brightness mode
+  def setLedBrightness(self, brightnessVal):
+    self.__brightness = brightnessVal
+
+  # get the current brightness lever for variable brightness
+  def getLedBrightness(self):
+    return self.__brightness
+
+  # make LED do work
   def shineOn(self):
-    self.__ledMode[self.mode]()
+    self.__ledMode[self.__mode]()
 
+  # cleanup GPIO 
   def cleanup(self):
     for led in self.LEDS:
       led.stop()
     GPIO.cleanup()
 
+  # LED off mode
   def __off(self):
     for led in self.LEDS:
       led.ChangeDutyCycle(100)
 
+  # variable LED brightness mode
   def __variableBrightness(self):
     for led in self.LEDS:
-      led.ChangeDutyCycle(self.brightness)
+      led.ChangeDutyCycle(self.__brightness)
 
+  # LED breathing mode
   def __breath(self):
     for led in self.LEDS:
       led.ChangeDutyCycle(self.__breathBrightness)
@@ -56,12 +80,14 @@ class LED_CONTROLLER:
     if self.__breathBrightness <= 0.005 or self.__breathBrightness >=  99.995:
       self.__breathIncriment = -self.__breathIncriment
 
+  # light up LED for the button pressed
   def __onPressMode(self):
-    for num, brightness in enumerate(self.brightnesses, start=0):
-      self.LEDS[num].ChangeDutyCycle(self.brightnesses[num])
+    for num, brightness in enumerate(self.__brightnesses, start=0):
+      self.LEDS[num].ChangeDutyCycle(self.__brightnesses[num])
       if brightness < 100.0 and not self.keyPressed:
-        self.brightnesses[num] = self.brightnesses[num] + self.__clickIncriment
+        self.__brightnesses[num] = self.__brightnesses[num] + self.__clickIncriment
 
+  # Knight rider!!!!!!
   def __KnightRider(self):
     self.LEDS[self.__currentLED].ChangeDutyCycle(self.__krBrightness)
     if (self.__krBrightness >= 99.95):
