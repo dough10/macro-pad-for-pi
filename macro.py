@@ -12,4 +12,3 @@ try:
 
 except KeyboardInterrupt:
   leds.cleanup()
-  
