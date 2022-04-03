@@ -14,7 +14,7 @@ class Button:
 
   def __init__(self, pin, leds, index, __function_state, key):
     self.__pin = pin
-    self.LEDS = leds
+    self.__LEDS = leds
     self.__index = index
     self.__key = key
     self.__function_state = __function_state
@@ -32,25 +32,25 @@ class Button:
       return
     self.__pressed = state
 
-    # light up the button pressed when in onPress mode
-    if state and self.LEDS.getMode() == 1:
+    # light up the button pressed when in onPress LED mode
+    if state and self.__LEDS.getMode() == 1:
       try:
-        self.LEDS.setOneLedBrightness(self.__index, 0)
+        self.__LEDS.setOneLedBrightness(self.__index, 0)
       except IndexError:
         pass
 
     # check for led to determine if button or encoder was pressed
     try:  
-      self.LEDS.LEDS[self.__index] ## checking if there is a led tied to the button index (ie. is it the encoder button)
-      self.LEDS.keyPressed = state  # only set state of led.keyPressed if the key pressed is not the encoder
+      self.__LEDS.LEDS[self.__index] ## checking if there is a led tied to the button index (ie. is it the encoder button)
+      self.__LEDS.keyPressed = state  # only set state of led.keyPressed if the key pressed is not the encoder
       # set led mode to index of key pressed if encoder is held depressed
       if self.__function_state[0]:
-        self.LEDS.setMode(self.__index)
+        self.__LEDS.setMode(self.__index)
         return
 
       ## actual key press command here
       keyboard.press(Key[self.__key]) if state else keyboard.release(Key[self.__key])
-      # print("Button: ",  self.__pin, ", LED: ", self.LEDS.LEDS[self.__index], ", Key: " + self.__key + ", Pressed") if state else print("Button: ",  self.__pin, ", LED: ", self.LEDS.LEDS[self.__index], ", Key: " + self.__key +  ", Released")
+      # print("Button: ",  self.__pin, ", LED: ", self.__LEDS.LEDS[self.__index], ", Key: " + self.__key + ", Pressed") if state else print("Button: ",  self.__pin, ", LED: ", self.__LEDS.LEDS[self.__index], ", Key: " + self.__key +  ", Released")
       # print('')
       ##
     # encoder was pressed
@@ -62,4 +62,4 @@ class Button:
     return self.__pressed
 
   def update(self):
-    self.__press(not GPIO.input( self.__pin))
+    self.__press(not GPIO.input(self.__pin))

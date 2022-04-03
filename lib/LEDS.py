@@ -11,7 +11,7 @@ class LED_CONTROLLER:
   __currentLED = 1
   __changeBy = -1
   __krIncriment = 0.05
-  __krBrightness = 10 - __krIncriment
+  __krBrightness = 9.95
   __clickIncriment = 0.001
   __breathIncriment = 0.003
   __breathBrightness = 10

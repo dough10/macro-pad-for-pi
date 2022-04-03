@@ -18,6 +18,8 @@ button_pins = [
   23
 ] 
 
+encoder_pins = []
+
 
 # 5 key names and 1 blank string
 keys = [
