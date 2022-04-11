@@ -18,15 +18,23 @@ button_pins = [
   23
 ] 
 
-encoder_pins = []
+encoder_pins = [
+  27,
+  22
+]
 
 
-# 5 key names and 1 blank string
+# 5 key names to bind to buttons
 keys = [
   'up',
   'down',
   'left',
   'right',
-  'enter',
-  ''
+  'enter'
 ] 
+
+# 2 key names to bind to encoder left encKeys[0] right encKeys[1]
+encKeys = [
+  'left',
+  'right'
+]

@@ -98,3 +98,4 @@ class LED_CONTROLLER:
     elif (self.__krBrightness <= 0.05):
       self.__krIncriment = -self.__krIncriment
     self.__krBrightness = self.__krBrightness + self.__krIncriment
+    
