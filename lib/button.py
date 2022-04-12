@@ -1,3 +1,4 @@
+from array import array
 import RPi.GPIO as GPIO
 from pynput.keyboard import Key, Controller
 from time import time
@@ -19,6 +20,16 @@ class Button:
     self.__key = key
     self.__function_state = function_state
     GPIO.setup(self.__pin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+
+  def __pressArrayKeys(self, state):
+    # press all keys
+    if state: 
+      for index, key in enumerate(self.__key, start=0):
+        self.__keyboard.press(Key[self.__key[index]])
+    # release all keys
+    else:
+      for index, key in enumerate(self.__key, start=0):
+        self.__keyboard.release(Key[self.__key[index]])
 
   def __press(self, state):
     # limit key spam
@@ -49,7 +60,10 @@ class Button:
         return
 
       ## actual key press command here
-      self.__keyboard.press(Key[self.__key]) if state else self.__keyboard.release(Key[self.__key])
+      if isinstance(self.__key, list):
+        self.__pressArrayKeys(state)
+      else:
+        self.__keyboard.press(Key[self.__key]) if state else self.__keyboard.release(Key[self.__key])
       # super unnessacery debugging line
       # print("Button: ",  self.__pin, ", LED: ", self.__LEDS.LEDS[self.__index], ", Key: " + self.__key + ", Pressed") if state else print("Button: ",  self.__pin, ", LED: ", self.__LEDS.LEDS[self.__index], ", Key: " + self.__key +  ", Released")
       # print('')

@@ -24,13 +24,22 @@ encoder_pins = [
 ]
 
 
+# here are all the attrebutes of pynput.keyboard.Key 
+__commands = [
+  'alt', 'backspace', 'cmd', 'ctrl', 'delete', 'down', 'end', 'enter',
+  'esc', 'f1', 'f10', 'f11', 'f12', 'f13', 'f14', 'f15', 'f16', 'f17', 'f18',
+  'f19', 'f2', 'f20', 'f3', 'f4', 'f5', 'f6', 'f7', 'f8', 'f9', 'home',
+  'insert','left', 'menu', 'pause', 'right', 'shift', 'space', 'tab', 'up'
+]
+
+
 # 5 key names to bind to buttons
 keys = [
   'up',
   'down',
   'left',
   'right',
-  'enter'
+  ['alt','enter']
 ] 
 
 # 2 key names to bind to encoder left encKeys[0] right encKeys[1]
