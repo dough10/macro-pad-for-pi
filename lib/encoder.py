@@ -1,6 +1,5 @@
 
 # https://github.com/nstansby/rpi-rotary-encoder-python
-
 import RPi.GPIO as GPIO
 
 

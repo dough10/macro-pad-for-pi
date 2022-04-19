@@ -33,13 +33,14 @@ __commands = [
 ]
 
 
-# 5 key names to bind to buttons
+# 5 entrys
+# strings or arrays
 keys = [
   'up',
   'down',
   'left',
   'right',
-  ['alt','enter']
+  ['alt','f4']
 ] 
 
 # 2 key names to bind to encoder left encKeys[0] right encKeys[1]

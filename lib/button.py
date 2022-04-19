@@ -38,7 +38,7 @@ class Button:
       return
     self.__lastPressed = now
 
-    # only run is state has changed
+    # only run if state has changed
     if state == self.__pressed:
       return
     self.__pressed = state
@@ -59,15 +59,12 @@ class Button:
         self.__LEDS.setMode(self.__index)
         return
 
-      ## actual key press command here
+      ## actual key press commands here
       if isinstance(self.__key, list):
         self.__pressArrayKeys(state)
       else:
         self.__keyboard.press(Key[self.__key]) if state else self.__keyboard.release(Key[self.__key])
-      # super unnessacery debugging line
-      # print("Button: ",  self.__pin, ", LED: ", self.__LEDS.LEDS[self.__index], ", Key: " + self.__key + ", Pressed") if state else print("Button: ",  self.__pin, ", LED: ", self.__LEDS.LEDS[self.__index], ", Key: " + self.__key +  ", Released")
-      # print('')
-      ##
+  
     # encoder was pressed (function state matchs button state)
     except IndexError:
       self.__function_state[0] = state
