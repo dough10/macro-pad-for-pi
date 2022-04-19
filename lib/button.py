@@ -3,6 +3,7 @@ import RPi.GPIO as GPIO
 from pynput.keyboard import Key, Controller
 from time import time
 
+keyboard = Controller()
 
 def millis():
     return round(time() * 1000)
@@ -11,7 +12,6 @@ class Button:
   __debounceTime = 50
   __lastPressed = 0
   __pressed = False
-  __keyboard = Controller()
 
   def __init__(self, pin, leds, index, function_state, key):
     self.__pin = pin
@@ -25,11 +25,11 @@ class Button:
     # press all keys
     if state: 
       for index, key in enumerate(self.__key, start=0):
-        self.__keyboard.press(Key[self.__key[index]])
+        keyboard.press(Key[self.__key[index]])
     # release all keys
     else:
       for index, key in enumerate(self.__key, start=0):
-        self.__keyboard.release(Key[self.__key[index]])
+        keyboard.release(Key[self.__key[index]])
 
   def __press(self, state):
     # limit key spam
@@ -63,7 +63,7 @@ class Button:
       if isinstance(self.__key, list):
         self.__pressArrayKeys(state)
       else:
-        self.__keyboard.press(Key[self.__key]) if state else self.__keyboard.release(Key[self.__key])
+        keyboard.press(Key[self.__key]) if state else keyboard.release(Key[self.__key])
   
     # encoder was pressed (function state matchs button state)
     except IndexError:
