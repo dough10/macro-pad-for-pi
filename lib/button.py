@@ -1,4 +1,3 @@
-from array import array
 import RPi.GPIO as GPIO
 from pynput.keyboard import Key, Controller
 from time import time
