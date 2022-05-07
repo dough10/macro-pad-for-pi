@@ -39,6 +39,16 @@ class LED_CONTROLLER:
   # gets current LED mode
   def getMode(self):
     return self.__mode
+    
+  # set incriment 
+  # knight rider mode
+  def setKRIncriment(self, val):
+    self.__krIncriment = val
+
+  # get the incriment
+  # knight rider mode
+  def getKRIncriment(self):
+    return self.__krIncriment
 
   # method for turning a LED on when a button is pressed
   def setOneLedBrightness(self, index, brightnessVal):

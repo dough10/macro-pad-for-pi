@@ -3,9 +3,10 @@ from pynput.keyboard import Key, Controller
 keyboard = Controller()
 
 class KNOB:
-  __lastval = 0;
-  __ran = 0
+  __lastval = 0
   __brightnessIncriment = 5
+  __KRIncriment = 0.001
+  __pressIncriment = 0.001
 
   def __init__(self, leds, buttons, keys):
     self.__LEDS = leds
@@ -33,7 +34,11 @@ class KNOB:
     pass
 
   def __knightRider(self, val):
-    pass
+    currentIncriment = self.__LEDS.getKRIncriment()
+    if val < self.__lastval and currentIncriment <= 0.06:
+      self.__LEDS.setKRIncriment(currentIncriment - self.__KRIncriment)
+    elif val > self.__lastval and currentIncriment >= 0.00:
+      self.__LEDS.setKRIncriment(currentIncriment + self.__KRIncriment)
 
   def __off(self, val):
     pass
@@ -53,8 +58,6 @@ class KNOB:
   def turned(self, val, dir):
     # no change in value
     if val == self.__lastval:
-      self.__ran + 1
-      print('unneeded code has run ' + self.__ran + ' times')
       return
     # led function mode
     elif self.__buttons.function_state[0]:
