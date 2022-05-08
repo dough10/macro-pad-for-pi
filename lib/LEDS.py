@@ -12,7 +12,7 @@ class LED_CONTROLLER:
   __changeBy = -1
   __krIncriment = 0.05
   __krBrightness = 9.95
-  __clickIncriment = 0.001
+  __pressIncriment = 0.001
   __breathIncriment = 0.003
   __breathBrightness = 10
   
@@ -95,7 +95,7 @@ class LED_CONTROLLER:
     for num, brightness in enumerate(self.__brightnesses, start=0):
       self.LEDS[num].ChangeDutyCycle(self.__brightnesses[num])
       if brightness < 100.0 and not self.keyPressed:
-        self.__brightnesses[num] = self.__brightnesses[num] + self.__clickIncriment
+        self.__brightnesses[num] = self.__brightnesses[num] + self.__pressIncriment
 
   # Knight rider!!!!!!
   def __KnightRider(self):
