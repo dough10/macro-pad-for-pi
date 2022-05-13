@@ -6,7 +6,7 @@ class KNOB:
   __lastval = 0
   __brightnessIncriment = 5
   __KRIncriment = 0.001
-  __pressIncriment = 0.001
+  __pressIncriment = 0.0001
 
   def __init__(self, leds, buttons, keys):
     self.__LEDS = leds
@@ -28,7 +28,11 @@ class KNOB:
       self.__LEDS.setLedBrightness(currentBrightness - self.__brightnessIncriment)
 
   def __onPress(self, val):
-    pass
+    currentIncriment = self.__LEDS.getPressIncriment()
+    if val < self.__lastval and currentIncriment <= 0.001:
+      self.__LEDS.setPressIncriment(currentIncriment - self.__pressIncriment)
+    elif val > self.__lastval and currentIncriment <= 0:
+      self.__LEDS.setPressIncriment(currentIncriment + self.__pressIncriment)
 
   def __breath(self, val):
     pass

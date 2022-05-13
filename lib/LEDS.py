@@ -39,6 +39,12 @@ class LED_CONTROLLER:
   # gets current LED mode
   def getMode(self):
     return self.__mode
+
+  def getPressIncriment(self):
+    return self.__pressIncriment
+
+  def setPressIncriment(self, val):
+    self.__pressIncriment = val
     
   # set incriment 
   # knight rider mode
